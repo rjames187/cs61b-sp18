@@ -115,7 +115,7 @@ public class ArrayDeque<T> {
     public T get(int index) {
         int actualIndex = startIndex + 1 + index;
         if (actualIndex > array.length - 1) {
-            actualIndex -= array.length - 1;
+            actualIndex -= array.length - 2;
         }
 
         return array[actualIndex];
