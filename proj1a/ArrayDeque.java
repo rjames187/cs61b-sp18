@@ -87,6 +87,10 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
+        if (size() == 0) {
+            return null;
+        }
+
         int firstIndex = safeIncrement(startIndex);
 
         T res = array[firstIndex];
@@ -96,6 +100,10 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
+        if (size() == 0) {
+            return null;
+        }
+
         int lastIndex = safeDecrement(endIndex);
 
         T res = array[lastIndex];
