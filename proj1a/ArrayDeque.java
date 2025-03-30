@@ -4,6 +4,7 @@ public class ArrayDeque<T> {
     private T[] array = (T[]) new Object[8];
     private int startIndex = 7;
     private int endIndex = 0;
+    private int arraySize = 0;
 
     public ArrayDeque() {}
 
@@ -17,8 +18,8 @@ public class ArrayDeque<T> {
             i++;
         }
 
-        startIndex = newArray.length - 1;
         endIndex = size();
+        startIndex = newArray.length - 1;
         array = newArray;
     }
 
@@ -28,7 +29,7 @@ public class ArrayDeque<T> {
         if (amount == array.length) {
             T[] newArray = (T[]) new Object[amount * 2];
             resize(newArray, amount);
-        } else if (amount <= array.length / 4) {
+        } else if (array.length > 16 && amount <= array.length / 4) {
             int newSize = array.length / 2;
             if (newSize < 16) {
                 newSize = 16;
@@ -56,13 +57,20 @@ public class ArrayDeque<T> {
     }
 
     public void addFirst(T item) {
+        checkResize();
+
         array[startIndex] = item;
         startIndex = safeDecrement(startIndex);
+        arraySize += 1;
     }
 
     public void addLast(T item) {
+        checkResize();
+
         array[endIndex] = item;
         endIndex = safeIncrement(endIndex);
+
+         arraySize += 1;
     }
 
     public boolean isEmpty() {
@@ -70,7 +78,7 @@ public class ArrayDeque<T> {
     }
 
     public int size() {
-        return endIndex + array.length - 1 - startIndex;
+        return arraySize;
     }
 
     public void printDeque() {
@@ -79,7 +87,7 @@ public class ArrayDeque<T> {
         for (int i = startIndex + 1; i < array.length; i++) {
             res += array[i] + " ";
         }
-        for (int i = 0; array[i] != null; i++) {
+        for (int i = 0; array[i] != null && i < array.length; i++) {
             res += array[i] + " ";
         }
 
@@ -87,6 +95,8 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
+        checkResize();
+
         if (size() == 0) {
             return null;
         }
@@ -96,10 +106,13 @@ public class ArrayDeque<T> {
         T res = array[firstIndex];
         array[firstIndex] = null;
         startIndex = firstIndex;
+        arraySize -= 1;
         return res;
     }
 
     public T removeLast() {
+        checkResize();
+
         if (size() == 0) {
             return null;
         }
@@ -109,6 +122,7 @@ public class ArrayDeque<T> {
         T res = array[lastIndex];
         array[lastIndex] = null;
         endIndex = lastIndex;
+        arraySize -= 1;
         return res;
     }
 
