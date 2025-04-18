@@ -197,7 +197,7 @@ public class RandomUtils {
             throw new IllegalArgumentException("lambda must not be infinite: " + lambda);
         }
         // using algorithm given by Knuth
-        // see http://en.wikipedia.org/wiki/Poisson_distribution
+        // seeT http://en.wikipedia.org/wiki/Poisson_distribution
         int k = 0;
         double p = 1.0;
         double expLambda = Math.exp(-lambda);
